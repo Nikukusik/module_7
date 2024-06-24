@@ -8,9 +8,9 @@ if __name__ == "__main__":
 
     select_1 = Session.query(Student.name, func.round(func.avg(Score.mark), 2).label('avg_grade')).select_from(Score).join(Student).group_by(Student.id).order_by(desc('avg_grade')).limit(5).all()
 
-    #select_2 = Session.execute(select(Student.name, Subject.name, func.round(func.avg(Score.mark), 2).label('avg_grade')).select_from(Score).join(Student).join(Subject).where(Student.id == 1).order_by(desc('avg_grade'))) #TODO
+    select_2 = Session.execute(select(Student.name, func.avg(Score.mark).label('avg_grade'), Subject.name).join(Student).join(Subject).where(Student.id == 1).group_by(Student.name, Subject.name).order_by(desc('avg_grade')))
 
-    #select_3 = Session.execute(select(Subject.name, func.avg(Score.mark)).select_from(Score).join(Subject).where(Subject.id == 1)) #TODO
+    select_3 = Session.execute(select(Subject.name, func.avg(Score.mark)).select_from(Score).join(Subject).where(Subject.id == 1).group_by(Subject.name))
 
     select_4 = Session.execute(select(func.avg(Score.mark)).select_from(Score)).all()
 
